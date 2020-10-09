@@ -122,7 +122,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
             
             for (attribute,description) in attributes {
 
-                if var value = (serverZonesArray as AnyObject).object(forKey: attribute) {
+                if var value = (serverZonesArray as! NSDictionary).object(forKey: attribute) {
                     
                     switch description.attributeType {
                         

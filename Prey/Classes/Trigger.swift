@@ -105,7 +105,7 @@ class Trigger : PreyAction {
             
             for (attribute,description) in attributes {
                 
-                if var value = (serverTriggersArray as AnyObject).object(forKey: attribute) {
+                if var value = (serverTriggersArray as! NSDictionary).object(forKey: attribute) {
                     
                     switch description.attributeType {
                         
@@ -121,14 +121,14 @@ class Trigger : PreyAction {
                 }
             }
             // Check events
-            if let eventsArray = (serverTriggersArray as AnyObject).object(forKey: "automation_events") as? NSArray {
+            if let eventsArray = (serverTriggersArray as! NSDictionary).object(forKey: "automation_events") as? NSArray {
                 for eventItem in eventsArray {
                     let eventsTrigger = NSEntityDescription.insertNewObject(forEntityName: "TriggersEvents", into: context) as! TriggersEvents
 
-                    if let type = (eventItem as AnyObject).object(forKey: "type") as? String {
+                    if let type = (eventItem as! NSDictionary).object(forKey: "type") as? String {
                         eventsTrigger.type = type
                     }
-                    if let info = (eventItem as AnyObject).object(forKey: "info") as? NSDictionary {
+                    if let info = (eventItem as! NSDictionary).object(forKey: "info") as? NSDictionary {
                         do {
                             let data = try JSONSerialization.data(withJSONObject: info)
                             eventsTrigger.info = String(data: data, encoding: .utf8)
@@ -140,14 +140,14 @@ class Trigger : PreyAction {
                 }
             }
             // Check actions
-            if let actionArray = (serverTriggersArray as AnyObject).object(forKey: "automation_actions") as? NSArray {
+            if let actionArray = (serverTriggersArray as! NSDictionary).object(forKey: "automation_actions") as? NSArray {
                 for actionItem in actionArray {
                     let actionTrigger = NSEntityDescription.insertNewObject(forEntityName: "TriggersActions", into: context) as! TriggersActions
                     
-                    if let delay = (actionItem as AnyObject).object(forKey: "delay") as? Double {
+                    if let delay = (actionItem as! NSDictionary).object(forKey: "delay") as? Double {
                         actionTrigger.delay = NSNumber(value:delay)
                     }
-                    if let action = (actionItem as AnyObject).object(forKey: "action") as? NSDictionary {
+                    if let action = (actionItem as! NSDictionary).object(forKey: "action") as? NSDictionary {
                         let localActionArray = NSMutableArray()
                         localActionArray.add(action)
                         
